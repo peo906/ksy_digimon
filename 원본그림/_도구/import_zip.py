@@ -1,5 +1,6 @@
 """누끼 zip -> 게임용 96칸 12장 저장 + zip 정리.
-사용 (프로젝트 루트에서): python 원본그림/_도구/import_zip.py <zip> <폴더이름> [톤단계 0/0.5/1/2]
+사용 (프로젝트 루트에서): python 원본그림/_도구/import_zip.py <zip> <폴더이름> [톤단계 0/0.5/1/2] [wide]
+- wide: 옆으로 넓은 디지몬. 키만 96에 맞추고 가로는 필요한 만큼 넓힘 (게임은 높이 기준으로 확대하므로 그대로 동작)
 - zip 안 PNG 12장 (original_size 폴더가 있으면 그것만) 을 같은 배율로 96x96에 맞춤 (발은 맨 아래, 반투명 없음)
 - 톤 0: resource/디지몬/<이름>/ 에 바로 저장
 - 톤 1·2: 원본그림/<이름>/톤다운전_96칸/ 에 원본, resource/디지몬/<이름>/ 에 톤다운본
@@ -9,6 +10,7 @@ from PIL import Image
 
 zp, name = sys.argv[1:3]
 tone = float(sys.argv[3]) if len(sys.argv) > 3 else 0
+WIDE = 'wide' in sys.argv[4:]
 C = 96
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,12 +22,15 @@ with zipfile.ZipFile(zp) as z:
     src = [Image.open(io.BytesIO(z.read(n))).convert('RGBA') for n in pngs]
 
 src = [im.crop(im.getchannel('A').point(lambda v: 255 if v >= 128 else 0).getbbox()) for im in src]
-k = min((C - 1) / max(im.height for im in src), C / max(im.width for im in src))
+k = (C - 1) / max(im.height for im in src)
+if not WIDE:
+    k = min(k, C / max(im.width for im in src))
+CW = max(C, *(round(im.width * k) for im in src)) if WIDE else C   # 캔버스 가로
 frames = []
 for r in src:
     s = r.resize((max(1, round(r.width * k)), max(1, round(r.height * k))), Image.LANCZOS)
     s.putalpha(s.getchannel('A').point(lambda v: 255 if v >= 128 else 0))
-    f = Image.new('RGBA', (C, C), (0, 0, 0, 0)); f.paste(s, ((C - s.width) // 2, C - s.height), s)
+    f = Image.new('RGBA', (CW, C), (0, 0, 0, 0)); f.paste(s, ((CW - s.width) // 2, C - s.height), s)
     a = f.getchannel('A'); b = a.getbbox()
     assert b[3] == C and not sum(a.histogram()[1:255])     # 발은 맨 아래, 반투명 없음
     frames.append(f)
@@ -33,8 +38,8 @@ for r in src:
 def toned(im):
     s_k, v_k = {0.5: (0.975, 0.93), 1: (0.95, 0.86), 2: (0.90, 0.74)}[tone]
     im = im.copy(); px = im.load()
-    for y in range(C):
-        for x in range(C):
+    for y in range(im.height):
+        for x in range(im.width):
             r, g, b, a = px[x, y]
             if a:
                 h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
@@ -58,4 +63,4 @@ dst = os.path.join(arch, '누끼_원본.zip')
 if os.path.abspath(zp) != os.path.abspath(dst):
     shutil.move(zp, dst)
 subprocess.run([sys.executable, os.path.join(TOOLS, 'stage_mockup.py')], check=True, stdout=subprocess.DEVNULL)
-print('ok', name, 'scale', round(k, 4), 'tone', tone, '->', game, '| zip ->', dst)
+print('ok', name, 'scale', round(k, 4), 'size', (CW, C), 'tone', tone, '->', game, '| zip ->', dst)

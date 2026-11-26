@@ -15,7 +15,7 @@ for sp, v in g.SPECIES.items():
     im = m['pil'](m['frame_id'](sp, 0)); rows.setdefault(v['stage'], []).append((v['name'], im, m['sp_size'](sp), False))
 NEW = {'punimon': ('푸니몬', g.BABY1), 'tsunomon': ('뿔몬', g.BABY2), 'gabumon': ('파피몬', g.ROOKIE), 'garurumon': ('가루몬', g.CHAMP), 'weregarurumon': ('워가루몬', g.ULT), 'monochromon': ('모노크로몬', g.CHAMP), 'tuskmon': ('터스크몬', g.CHAMP), 'coelamon': ('시라몬', g.CHAMP),
        'triceramon': ('트리케라몬', g.ULT), 'metaltyrannomon': ('메탈티라노몬', g.ULT), 'skullgreymon': ('스컬그레이몬', g.ULT),
-       'metalgreymon': ('메탈그레이몬(백신)', g.ULT), 'deathmeramon': ('데드메라몬', g.ULT), 'metalmamemon': ('메탈콩알몬', g.ULT), 'megadramon': ('메가드라몬', g.ULT), 'megaseadramon': ('메가시드라몬', g.ULT), 'vamdemon': ('묘티스몬', g.ULT), 'ladydevimon': ('레이디데블몬', g.ULT), 'boltmon': ('볼트몬', g.MEGA), 'mugendramon': ('파워드라몬', g.MEGA), 'wargreymon': ('워그레이몬', g.MEGA), 'blackwargreymon': ('블랙워그레이몬', g.MEGA), 'metalgarurumon': ('메탈가루몬', g.MEGA), 'metalseadramon': ('메탈시드라몬', g.MEGA), 'venomvamdemon': ('베놈묘티스몬', g.MEGA), 'skullmammon': ('스컬맘몬', g.MEGA), 'lilithmon': ('리리스몬', g.MEGA), 'demon': ('마왕몬', g.MEGA)}
+       'metalgreymon': ('메탈그레이몬(백신)', g.ULT), 'deathmeramon': ('데드메라몬', g.ULT), 'metalmamemon': ('메탈콩알몬', g.ULT), 'megadramon': ('메가드라몬', g.ULT), 'megaseadramon': ('메가시드라몬', g.ULT), 'vamdemon': ('묘티스몬', g.ULT), 'ladydevimon': ('레이디데블몬', g.ULT), 'boltmon': ('볼트몬', g.MEGA), 'blitzgreymon': ('블리츠그레이몬(새)', g.MEGA), 'mugendramon': ('파워드라몬', g.MEGA), 'wargreymon': ('워그레이몬', g.MEGA), 'blackwargreymon': ('블랙워그레이몬', g.MEGA), 'metalgarurumon': ('메탈가루몬', g.MEGA), 'metalseadramon': ('메탈시드라몬', g.MEGA), 'venomvamdemon': ('베놈묘티스몬', g.MEGA), 'skullmammon': ('스컬맘몬', g.MEGA), 'lilithmon': ('리리스몬', g.MEGA), 'demon': ('마왕몬', g.MEGA)}
 SIZE_NEW = {'gabumon': 1.37, 'garurumon': 1.45}   # 가루몬: 머리 갈기 빼고 눈대중 (사용자 결정). 파피몬: 뿔 빼고 머리 높이를 아구몬(41)에 맞춘 배율 (기본 자세 머리 위 y=36 -> 30, 41/30). 게임 연결 시 pet.pyw에도 같은 배율 필요
 KEEP_NEW = {'metalmamemon'}   # 콩알몬처럼 작게 두는 새 그림 (게임 연결 시 pet.pyw KEEP_SIZE에도 추가)
 for d, (name, st) in NEW.items():
@@ -39,7 +39,8 @@ for st in order:
     dr.text((PAD, base - 40), label, font=bold, fill=(30, 30, 36))
     dr.text((PAD, base - 20), f'목표 키 {FIT[st]}px' if st in FIT else '', font=font, fill=(110, 110, 120))
     for i, (name, im, s, new) in enumerate(rows[st]):
-        big = im.resize((round(48 * SCALE * s), round(48 * SCALE * s)), Image.LANCZOS if im.height > 48 else Image.NEAREST)
+        h48 = 48 * SCALE * s   # 높이 기준 (넓은 그림은 가로만 길어짐)
+        big = im.resize((round(h48 * im.width / im.height), round(h48)), Image.LANCZOS if im.height > 48 else Image.NEAREST)
         big.putalpha(big.getchannel('A').point(lambda v: 255 if v >= 128 else 0))
         cx = LEFT + i * CELL + CELL // 2
         out.alpha_composite(big, (cx - big.width // 2, base - big.height))

@@ -70,13 +70,13 @@ def extract(source):
 
 def validate(data):
     ids = {n['id'] for n in data['nodes']}
-    assert len(ids) == len(data['nodes']) == 104
+    assert len(ids) == len(data['nodes']) == 122
     assert all(e['source'] in ids and e['target'] in ids for e in data['edges'])
     lookup = {n['id']: n for n in data['nodes']}
     assert all(lookup[e['source']]['stage'] < lookup[e['target']]['stage'] for e in data['edges'])
     assert len(data['recipes']) == 4
     assert all(bool(n['image']) == n['ready'] for n in data['nodes'])
-    assert all(sum(n['stage'] == s for n in data['nodes']) == count for s, count in enumerate([1, 5, 5, 7, 25, 26, 31, 4]))
+    assert all(sum(n['stage'] == s for n in data['nodes']) == count for s, count in enumerate([1, 8, 8, 10, 28, 29, 34, 4]))
 
 
 if __name__ == '__main__':
