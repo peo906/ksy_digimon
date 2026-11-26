@@ -1,7 +1,7 @@
 """진화표 작업 폴더 만들기: 개편안 v2.8 진화 갈래 + 그림이 있는 종의 01번 그림 복사 + 설명 md.
 사용 (프로젝트 루트에서): python 원본그림/_도구/evo_chart.py
 새 그림을 추가하면 HAVE 에 '이름': '폴더' 한 줄 넣고 다시 실행."""
-import os, shutil
+import os, re, shutil
 
 # 그림이 있는 종: 이름 -> resource/디지몬 폴더
 HAVE = {
@@ -79,6 +79,17 @@ def first_png(folder):
     return os.path.join(d, sorted(f for f in os.listdir(d) if f.endswith('.png'))[0])   # 01번(또는 옛 형식의 가장 작은 번호 = 기본 자세)
 
 
+def second_png(folder):
+    """기본 자세 02(걷기). 새 그림은 폴더_02.png, 옛 형식은 두 번째로 작은 번호. 없으면 None"""
+    d = os.path.join(SRC, folder)
+    if os.path.exists(os.path.join(d, f'{folder}_01.png')):
+        p = os.path.join(d, f'{folder}_02.png')
+        return p if os.path.exists(p) else None
+    num = lambda f: [int(t) if t.isdigit() else t for t in re.split(r'(\d+)', f)]   # metalgreymon_2 < metalgreymon_10
+    old = sorted((f for f in os.listdir(d) if f.endswith('.png')), key=num)
+    return os.path.join(d, old[1]) if len(old) > 1 else None
+
+
 def mark(n):
     return f'**{n}** ✅' if n in HAVE else f'{n} ❌'
 
@@ -105,6 +116,9 @@ img = os.path.join(OUT, '그림')
 shutil.rmtree(img, ignore_errors=True); os.makedirs(img)
 for n, f in HAVE.items():
     shutil.copy(first_png(f), os.path.join(img, f'{n}.png'))
+    p2 = second_png(f)   # 웹사이트 도감에서 그림을 누르면 01/02를 번갈아 보여 줌
+    if p2:
+        shutil.copy(p2, os.path.join(img, f'{n}_02.png'))
 
 # md
 L = ['# 디지몬 진화표 (작업용)', '',

@@ -20,8 +20,10 @@ def extract(source):
             assert nodes[name]['stage'] == stage, (name, stage)
             return
         image = source / '그림' / f'{name}.png'
+        image2 = source / '그림' / f'{name}_02.png'   # 기본 자세 02(걷기), 도감에서 01/02 전환용
         nodes[name] = dict(id=f'n{len(nodes)}', name=name, stage=stage, ready=image.is_file(), image=(
-            'data:image/png;base64,' + base64.b64encode(image.read_bytes()).decode() if image.is_file() else None))
+            'data:image/png;base64,' + base64.b64encode(image.read_bytes()).decode() if image.is_file() else None), image2=(
+            'data:image/png;base64,' + base64.b64encode(image2.read_bytes()).decode() if image.is_file() and image2.is_file() else None))
 
     def link(a, b, primary=True, kind='evolution'):
         edge = dict(source=a, target=b, primary=primary, kind=kind)
