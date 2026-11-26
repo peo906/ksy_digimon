@@ -36,7 +36,7 @@
 const DATA = /*__DATA__*/;
 const $ = id => document.getElementById(id);
 const byId = new Map(DATA.nodes.map(n=>[n.id,n]));
-const state={selected:DATA.nodes.find(n=>n.name==='아구몬').id,tab:'tree',status:'all',stage:'all',search:'',view:'local',zoom:1};
+const state={selected:DATA.nodes.find(n=>n.name==='아구몬').id,tab:'dex',status:'all',stage:'all',search:'',view:'local',zoom:1};
 const escapeHtml = s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art = (n,attrs='')=>n.ready?`<img src="${n.image}" alt="${escapeHtml(n.name)}" ${attrs}>`:'<span class="placeholder" aria-hidden="true">?</span>';
 const badge = n=>`<span class="badge ${n.ready?'':'missing'}">${n.ready?'✓ 구현 완료':'그림 미구현'}</span>`;
