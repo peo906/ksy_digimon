@@ -12,3 +12,4 @@
 @_claude_규칙/memory/tone-down-choice.md
 @_claude_규칙/memory/github-sync.md
 @_claude_규칙/memory/digipet-progress.md
+@_claude_규칙/memory/no-flip-flop.md

@@ -5,8 +5,8 @@ import os, shutil
 
 # 그림이 있는 종: 이름 -> resource/디지몬 폴더
 HAVE = {
-    '알': 'egg', '깜몬': 'botamon', '코로몬': 'koromon', '푸니몬': 'punimon', '뿔몬': 'tsunomon',
-    '아구몬': 'agumon', '베타몬': 'betamon', '파피몬': 'gabumon',
+    '알': 'egg', '깜몬': 'botamon', '코로몬': 'koromon', '푸니몬': 'punimon', '포요몬': 'poyomon', '토코몬': 'tokomon', '뿔몬': 'tsunomon',
+    '아구몬': 'agumon', '베타몬': 'betamon', '파피몬': 'gabumon', '파닥몬': 'patamon',
     '그레이몬': 'greymon', '데블몬': 'devimon', '에어드라몬': 'airdramon', '티라노몬': 'tyrannomon',
     '메라몬': 'meramon', '시드라몬': 'seadramon', '워매몬': 'numemon', '가루몬': 'garurumon',
     '모노크로몬': 'monochromon', '터스크몬': 'tuskmon', '시라몬': 'coelamon',
@@ -18,7 +18,7 @@ HAVE = {
     '스컬맘몬': 'skullmammon', '파워드라몬': 'mugendramon', '반쵸콩알몬': 'banchomamemon',
     '메탈시드라몬': 'metalseadramon', '신퍼펫몬': 'shinmonzaemon', '메탈가루몬': 'metalgarurumon',
     '리리스몬': 'lilithmon', '마왕몬': 'demon', '베놈묘티스몬': 'venomvamdemon', '볼트몬': 'boltmon',
-    '오메가몬 Alter-S': 'omegamon_alter_s',
+    '오메가몬 Alter-S': 'omegamon_alter_s', '크레스가루몬': 'cresgarurumon',
 }
 
 # 개편안 v2.8 2~5장 (v2.8: 어드벤처 피요몬·텐타몬·팔몬 계열 추가): 출발 -> [대표, 기타...]

@@ -3,4 +3,5 @@
 - [스프라이트 작업 방식](digipet-sprite-pipeline.md) — 96칸 저장 위치, 메탈콩알몬은 게임 연결 시 KEEP_SIZE 추가
 - [GPT 교차 검토](gpt-cross-review.md) — 양쪽 분석 → GPT 의견 공유 → 내가 종합해 프롬프트 작성
 - [GitHub 동기화](github-sync.md) — 작업 폴더는 peo906/ksy_digimon, 메모리 복사본은 _claude_규칙/
-- [진행 상황](digipet-progress.md) — 다음 순서(크레스가루몬→오메가몬 Alter-S), 대기 중인 zip, v2.8 기준
+- [진행 상황](digipet-progress.md) — 다음 순서(크레스가루몬 완료→오메가몬 Alter-S), 대기 중인 zip, v2.8 기준
+- [오락가락 금지](no-flip-flop.md) — 사용자 방식 기준, 의견은 근거와 함께, 지적받고 바로 뒤집지 않기
