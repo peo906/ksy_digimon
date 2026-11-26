@@ -11,13 +11,26 @@ function githubImageUpdates(files, commit, nodes) {
     if (file.path !== GITHUB_SOURCE.folder + '/' + file.name || !/^[a-f0-9]{40}$/.test(file.sha)) {
       throw new Error('그림 파일 경로를 확인할 수 없어요.');
     }
-    const name = file.name.slice(0, -4).normalize('NFC');
-    if (images.has(name)) throw new Error('같은 이름의 그림이 중복되어 있어요: ' + name);
+    const normalized = file.name.slice(0, -4).normalize('NFC');
+    const match = normalized.match(/^(.*)_(0[12])$/);
+    const name = (match ? match[1] : normalized).trim();
+    const pose = match ? match[2] : '01';
+    if (!name) throw new Error('그림 파일 이름을 확인할 수 없어요: ' + file.name);
     const path = file.path.split('/').map(encodeURIComponent).join('/');
-    images.set(name, `https://raw.githubusercontent.com/${GITHUB_SOURCE.repo}/${commit}/${path}`);
+    const entry = images.get(name) || {image: null, image2: null};
+    if (pose === '02') {
+      if (entry.image2) throw new Error('같은 이름의 기본자세02 그림이 중복되어 있어요: ' + name);
+      entry.image2 = `https://raw.githubusercontent.com/${GITHUB_SOURCE.repo}/${commit}/${path}`;
+    } else {
+      if (entry.image) throw new Error('같은 이름의 기본자세01 그림이 중복되어 있어요: ' + name);
+      entry.image = `https://raw.githubusercontent.com/${GITHUB_SOURCE.repo}/${commit}/${path}`;
+    }
+    images.set(name, entry);
   }
-  return nodes.map(n => ({id: n.id, ready: images.has(n.name.normalize('NFC')),
-    image: images.get(n.name.normalize('NFC')) || null}));
+  return nodes.map(n => {
+    const entry = images.get(n.name.normalize('NFC')) || {image: null, image2: null};
+    return {id: n.id, ready: !!entry.image, image: entry.image, image2: entry.image2};
+  });
 }
 
 async function githubJson(path) {
@@ -73,7 +86,12 @@ async function syncGithubImages(force = false) {
       const files = await githubJson(`contents/${folder}?ref=${commit.sha}`);
       const updates = githubImageUpdates(files, commit.sha, DATA.nodes);
       // 모든 새 그림의 로딩이 끝난 뒤 한 번에 반영해 실패 시 기존 그림과 집계를 보존한다.
-      await Promise.all(updates.filter(n => n.ready && n.image !== byId.get(n.id).image).map(n => preloadGithubImage(n.image)));
+      await Promise.all(updates.flatMap(n => {
+        const prev = byId.get(n.id);
+        return [n.image !== prev.image ? n.image : null, n.image2 !== prev.image2 ? n.image2 : null]
+          .filter(Boolean)
+          .map(url => preloadGithubImage(url));
+      }));
       const left = $('viewport').scrollLeft, top = $('viewport').scrollTop, catalogTop = $('catalog').scrollTop;
       updates.forEach(n => Object.assign(byId.get(n.id), n));
       githubSync.commit = commit.sha;
