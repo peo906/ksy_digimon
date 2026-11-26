@@ -11,3 +11,4 @@
 @_claude_규칙/memory/official-design-faithful.md
 @_claude_규칙/memory/tone-down-choice.md
 @_claude_규칙/memory/github-sync.md
+@_claude_규칙/memory/digipet-progress.md
