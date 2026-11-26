@@ -10,6 +10,8 @@
 
 디자인은 네이비 케이스, 오렌지 선택 표시, 녹색 LCD를 사용하는 디지바이스 스타일입니다. 색상과 카드·상세 패널 디자인은 `digital-theme.css`에서 수정하고 `python build.py`로 HTML에 반영합니다. 첫 화면은 아구몬이 선택된 디지몬 도감입니다.
 
+모바일(화면 너비 800px 이하)에서는 카드 선택 시 상세 팝업이 열립니다. 닫기·배경 터치·Esc로 닫으며, PC에서는 오른쪽 상세 패널을 사용합니다. 팝업의 진화 경로 보기 버튼은 팝업을 닫고 진화 트리로 이동합니다.
+
 ## 자료 갱신
 
 ### GitHub 그림 자동 동기화
@@ -30,6 +32,6 @@ GitHub 저장소는 현재 공개이므로 방문자 토큰 없이 읽습니다.
 
 작업 폴더가 없는 환경에서는 함께 저장한 `data.json` 스냅샷으로 HTML을 재생성합니다. HTML에는 `github-sync.js`도 함께 포함되므로 별도 서버 설치가 필요 없습니다. 진화 경로 자체는 생성 시점의 작업표를 따릅니다.
 
-검증: `node test-github-sync.cjs`, `node test-drag.cjs`, `python build.py`.
+검증: `node test-github-sync.cjs`, `node test-drag.cjs`, `node test-mobile-inspector.cjs`, `python build.py`.
 
 수치 진화 조건은 작업표에 정의되지 않아 추가하지 않았습니다. 게임 규칙과 세이브는 수정하지 않습니다.
