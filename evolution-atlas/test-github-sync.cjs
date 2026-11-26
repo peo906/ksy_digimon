@@ -2,8 +2,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const nodes = [
-  {id:'a', name:'아구몬', ready:true, image:'data:old'},
-  {id:'b', name:'에렉몬', ready:false, image:null}
+  {id:'a', name:'아구몬', ready:true, image:'data:old', image2:null},
+  {id:'b', name:'에렉몬', ready:false, image:null, image2:null}
 ];
 const elements = new Map();
 const element = id => {
@@ -58,5 +58,8 @@ vm.runInContext(fs.readFileSync('github-sync.js','utf8'), context);
   assert.throws(()=>context.githubImageUpdates([], 'main',nodes));
   const nfd=file('에렉몬'.normalize('NFD'));
   assert(context.githubImageUpdates([nfd],commit,nodes).find(n=>n.id==='b').ready,'Unicode filenames normalize');
+  const pose2={name:'아구몬_02.png',path:'진화표_작업/그림/아구몬_02.png',type:'file',sha:'e'.repeat(40)};
+  const withPose=context.githubImageUpdates([file('아구몬'),pose2],commit,nodes).find(n=>n.id==='a');
+  assert(withPose.image2.includes(encodeURIComponent('아구몬_02.png')),'기본자세02 파일을 추가 이미지로 인식');
   console.log('GitHub 동기화 검증 통과: 추가, 교체, 삭제, 변경 없음, 통신·그림 오류 보존, 잘못된 응답, 한글 파일명.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
