@@ -1,0 +1,5 @@
+- [톤다운 단계 선택](tone-down-choice.md) — 톤다운은 1·2단계 예시만 보여 주고 사용자가 고름
+- [공식 디자인 충실](official-design-faithful.md) — 프롬프트에 노출 줄이는 임의 문구 넣지 않기
+- [스프라이트 작업 방식](digipet-sprite-pipeline.md) — 96칸 저장 위치, 메탈콩알몬은 게임 연결 시 KEEP_SIZE 추가
+- [GPT 교차 검토](gpt-cross-review.md) — 양쪽 분석 → GPT 의견 공유 → 내가 종합해 프롬프트 작성
+- [GitHub 동기화](github-sync.md) — 작업 폴더는 peo906/ksy_digimon, 메모리 복사본은 _claude_규칙/

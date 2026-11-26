@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+DigiPet.zip
+evolution-atlas-deploy.tar.gz
+*.bak
+pet_save*.json
