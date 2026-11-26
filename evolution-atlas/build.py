@@ -87,6 +87,7 @@ if __name__ == '__main__':
         data = json.loads((ROOT / 'data.json').read_text(encoding='utf-8'))
     validate(data)
     html = (ROOT / 'index.template.html').read_text(encoding='utf-8')
+    html = html.replace('/*__DIGITAL_THEME__*/', (ROOT / 'digital-theme.css').read_text(encoding='utf-8'))
     sync_script = (ROOT / 'github-sync.js').read_text(encoding='utf-8')
     html = html.replace('/*__GITHUB_SYNC__*/', sync_script)
     payload = json.dumps(data, ensure_ascii=False).replace('</', '<\\/')
