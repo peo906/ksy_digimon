@@ -27,16 +27,24 @@ assert(classes.has('is-dragging'));
 events.pointerup(event());
 assert.equal(captured, null);
 assert(!classes.has('is-dragging'));
-for (const extra of [{target: {closest: () => ({})}}, {pointerType: 'touch'}, {button: 2}, {clientX: 501}]) {
+for (const extra of [{pointerType: 'touch'}, {button: 2}, {clientX: 501}]) {
   events.pointerdown(event(extra));
   events.pointermove(event({clientX: 0, clientY: 0}));
   assert.equal(viewport.scrollLeft, 80);
 }
+events.pointerdown(event({target: {closest: () => ({})}}));
+events.pointermove(event({clientX: 99, clientY: 100}));
+assert.equal(viewport.scrollLeft, 80);
+events.pointerup(event());
+events.pointerdown(event({target: {closest: () => ({})}}));
+events.pointermove(event({clientX: 0, clientY: 0}));
+assert.equal(viewport.scrollLeft, 180);
+events.pointerup(event());
 events.pointerdown(event());
 windowEvents.blur();
 events.pointermove(event({clientX: 0}));
-assert.equal(viewport.scrollLeft, 80);
+assert.equal(viewport.scrollLeft, 180);
 events.pointerdown(event());
 events.pointercancel(event());
 assert.equal(captured, null);
-console.log('Drag pan: movement, release, card clicks, touch, scrollbar, blur and cancellation passed.');
+console.log('Drag pan: movement threshold, card-drag, touch, scrollbar, blur and cancellation passed.');
