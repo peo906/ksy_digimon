@@ -8,7 +8,7 @@ HAVE = {
     '알': 'egg', '깜몬': 'botamon', '코로몬': 'koromon', '푸니몬': 'punimon', '포요몬': 'poyomon', '토코몬': 'tokomon', '뿔몬': 'tsunomon',
     '아구몬': 'agumon', '베타몬': 'betamon', '파피몬': 'gabumon', '파닥몬': 'patamon',
     '그레이몬': 'greymon', '데블몬': 'devimon', '에어드라몬': 'airdramon', '티라노몬': 'tyrannomon',
-    '메라몬': 'meramon', '시드라몬': 'seadramon', '워매몬': 'numemon', '가루몬': 'garurumon',
+    '메라몬': 'meramon', '시드라몬': 'seadramon', '워매몬': 'numemon', '가루몬': 'garurumon', '엔젤몬': 'angemon',
     '모노크로몬': 'monochromon', '터스크몬': 'tuskmon', '시라몬': 'coelamon',
     '메탈그레이몬': 'metalgreymon', '메탈그레이몬(청)': 'metalgreymon_blue', '스컬그레이몬': 'skullgreymon',
     '콩알몬': 'mamemon', '퍼펫몬': 'monzaemon', '워가루몬': 'weregarurumon', '메가드라몬': 'megadramon',
