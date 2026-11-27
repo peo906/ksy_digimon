@@ -1,6 +1,6 @@
 - [톤다운 단계 선택](tone-down-choice.md) — 0·0.5·1(·2)단계 비교 이미지를 보여 주고 사용자가 고름
 - [공식 디자인 충실](official-design-faithful.md) — 프롬프트에 노출 줄이는 임의 문구 넣지 않기
-- [스프라이트 작업 방식](digipet-sprite-pipeline.md) — 96칸 저장 위치, 02 걷기는 발 고정·몸만 살짝(수정 목록 원본그림/02_걷기_수정목록.md), 메탈콩알몬 KEEP_SIZE
+- [스프라이트 작업 방식](digipet-sprite-pipeline.md) — 96칸 저장 위치, 02 걷기는 발 고정·디지몬별 주 부위만 움직임·투명 PNG 요청·다르면 1차 재전송(원본그림/02_걷기_참고자료/README.md), 메탈콩알몬 KEEP_SIZE
 - [GPT 교차 검토](gpt-cross-review.md) — 양쪽 분석 → GPT 의견 공유 → 내가 종합해 프롬프트 작성
 - [GitHub 동기화](github-sync.md) — 작업 폴더는 peo906/ksy_digimon, 메모리 복사본은 _claude_규칙/
 - [진행 상황](digipet-progress.md) — 다음 순서(크레스가루몬 완료→오메가몬 Alter-S), 대기 중인 zip, v2.8 기준

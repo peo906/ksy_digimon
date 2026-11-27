@@ -82,7 +82,7 @@ const inspectorImages = n => n.ready ? [...new Set([n.image, n.image2].filter(Bo
 const inspectorWalk={timer:null};
 function stopInspectorWalk(){if(inspectorWalk.timer){clearInterval(inspectorWalk.timer);inspectorWalk.timer=null;}}
 // 기본자세 01/02(걷기)를 0.2초마다 번갈아 표시. 02가 없으면 01 고정
-function startInspectorWalk(n){stopInspectorWalk();const image=$('inspector').querySelector('.selected-art img');const images=inspectorImages(n);if(!image||images.length<2)return;let i=0;inspectorWalk.timer=setInterval(()=>{if(state.selected!==n.id||!image.isConnected){stopInspectorWalk();return;}i=(i+1)%images.length;image.src=images[i];},200);}
+function startInspectorWalk(n){stopInspectorWalk();const image=$('inspector').querySelector('.selected-art img');const images=inspectorImages(n);if(!image||images.length<2)return;let i=0;inspectorWalk.timer=setInterval(()=>{if(state.selected!==n.id||!image.isConnected){stopInspectorWalk();return;}i=(i+1)%images.length;image.src=images[i];},400);}
 const badge = n=>`<span class="badge ${n.ready?'':'missing'}">${n.ready?'✓ 구현 완료':'그림 미구현'}</span>`;
 const incoming = id=>DATA.edges.filter(e=>e.target===id);
 const outgoing = id=>DATA.edges.filter(e=>e.source===id);
